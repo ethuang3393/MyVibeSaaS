@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card p-5 text-center">
+            <h2>myVibeSaaS</h2>
+            <p class="mb-4">One account. Infinite productivity.</p>
+            <form action="{{ url_for('login') }}" method="POST">
+                <input type="text" name="user_name" class="form-control mb-3" placeholder="Enter Name to Login" required>
+                <button type="submit" class="btn btn-primary w-100">Enter</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

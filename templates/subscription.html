@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* Custom style for the price numbers to make them huge and bold */
+    .price-tag {
+        font-size: 3.5rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+    }
+    .price-period {
+        font-size: 1.2rem;
+        font-weight: 400;
+        vertical-align: middle;
+    }
+</style>
+
+<div class="text-center mb-5">
+    <h2>Choose your Vibe</h2>
+    <p>Select a tier to customize your experience and support the SaaS.</p>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 mb-3 text-center align-items-end">
+    
+    <!-- Free Tier -->
+    <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm border-primary h-100">
+            <div class="card-header py-3 text-white bg-primary border-primary">
+                <h4 class="my-0 fw-normal">Free</h4>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <!-- Changed: Added text-primary and price-tag class -->
+                <h1 class="card-title pricing-card-title price-tag text-primary">
+                    $0<span class="price-period text-muted">/mo</span>
+                </h1>
+                
+                <ul class="list-unstyled mt-3 mb-4 flex-grow-1">
+                    <li>Standard White Theme</li>
+                    <li>Basic Gemini Access</li>
+                    <li>Unlimited Lists</li>
+                </ul>
+                <form action="{{ url_for('subscription') }}" method="POST" class="mt-auto">
+                    <input type="hidden" name="tier" value="free">
+                    <button type="submit" class="w-100 btn btn-lg btn-outline-primary">
+                        {% if current_tier == 'free' %}Selected{% else %}Downgrade{% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Standard Tier (Black Theme) -->
+    <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm bg-dark text-white border-secondary h-100">
+            <div class="card-header py-3 border-secondary">
+                <h4 class="my-0 fw-normal">Standard</h4>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <!-- Changed: Used text-warning (Bright Yellow) for high contrast on black -->
+                <h1 class="card-title pricing-card-title price-tag text-warning">
+                    $35<span class="price-period text-white-50">/mo</span>
+                </h1>
+
+                <ul class="list-unstyled mt-3 mb-4 flex-grow-1">
+                    <li>Sleek <strong>Dark Theme</strong></li>
+                    <li>Priority AI Processing</li>
+                    <li>Email Support</li>
+                </ul>
+                <form action="{{ url_for('subscription') }}" method="POST" class="mt-auto">
+                    <input type="hidden" name="tier" value="standard">
+                    <button type="submit" class="w-100 btn btn-lg btn-light fw-bold">
+                        {% if current_tier == 'standard' %}Selected{% else %}Get Standard{% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Plus Tier (Colorful Theme) -->
+    <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm h-100" style="background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%); border:none;">
+            <div class="card-header py-3 border-0 bg-transparent">
+                <h4 class="my-0 fw-normal text-dark">Plus +</h4>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <!-- Changed: Used text-danger (Red) to stand out against pink gradient -->
+                <h1 class="card-title pricing-card-title price-tag text-danger">
+                    $60<span class="price-period text-dark opacity-50">/mo</span>
+                </h1>
+
+                <ul class="list-unstyled mt-3 mb-4 text-dark flex-grow-1">
+                    <li><strong>Google-style</strong> Colorful Theme</li>
+                    <li>Advanced AI Models</li>
+                    <li>24/7 Agent Support</li>
+                </ul>
+                <form action="{{ url_for('subscription') }}" method="POST" class="mt-auto">
+                    <input type="hidden" name="tier" value="plus">
+                    <button type="submit" class="w-100 btn btn-lg btn-danger">
+                        {% if current_tier == 'plus' %}Selected{% else %}Get Plus{% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

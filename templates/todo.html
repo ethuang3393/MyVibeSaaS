@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card p-4 mb-4">
+    <h5>Generate AI Plan</h5>
+    <form action="{{ url_for('create_list') }}" method="POST" class="d-flex gap-2">
+        <input type="text" name="list_title" class="form-control" placeholder="What needs doing?" required>
+        <button class="btn btn-theme" type="submit">Generate</button>
+    </form>
+</div>
+
+<div class="accordion" id="todoAccordion">
+    {% for list in todo_data %}
+    <div class="accordion-item mb-3 rounded overflow-hidden">
+        <h2 class="accordion-header">
+            <div class="d-flex w-100 align-items-center justify-content-between pe-3" style="background-color: var(--card-bg);">
+                <button class="accordion-button collapsed flex-grow-1" type="button" data-bs-toggle="collapse" data-bs-target="#c{{loop.index}}">
+                    {{ list.list_name }}
+                </button>
+                <form action="{{ url_for('remove_list', id=list.list_id) }}" method="POST" onsubmit="return confirm('Delete?');">
+                    <button class="btn text-danger"><i class="fas fa-trash"></i></button>
+                </form>
+            </div>
+        </h2>
+        <div id="c{{loop.index}}" class="accordion-collapse collapse" data-bs-parent="#todoAccordion">
+            <div class="accordion-body">
+                <ul class="list-group list-group-flush">
+                    {% for task in list.tasks %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <form action="{{ url_for('toggle_task', id=task.task_id) }}" method="POST">
+                                <input type="hidden" name="is_completed" value="{{ 'false' if task.is_completed else 'true' }}">
+                                <input type="checkbox" class="form-check-input me-3" {% if task.is_completed %}checked{% endif %} onchange="this.form.submit()">
+                            </form>
+                            <span class="{% if task.is_completed %}text-decoration-line-through opacity-50{% endif %}">
+                                {{ task.task_description }}
+                            </span>
+                        </div>
+                        <form action="{{ url_for('remove_task', id=task.task_id) }}" method="POST">
+                            <button class="btn btn-sm text-danger"><i class="fas fa-times"></i></button>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
